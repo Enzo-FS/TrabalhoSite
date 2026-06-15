@@ -313,11 +313,11 @@ input  { font-family: inherit; }
 
 /* ─── RETÂNGULO 1: MOTORISTA (ESQUERDA) ─── */
 .card-driver-new {
-  width: 159px;
-  height: 161px;
+  width: 200px;
+  height: 180px;
   background: var(--white);
   border-radius: 10px; /* Borda Radius 10 */
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.35);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -325,8 +325,19 @@ input  { font-family: inherit; }
 
 .driver-header-orange {
   width: 100%;
-  height: 27px; /* Altura de 27px */
+  height: 27px;              /* Mantém a altura de 27px */
   background: #E27E0C;
+  
+  /* Formatação solicitada */
+  font-size: 10px;           /* Fonte 10 */
+  font-weight: bold;         /* Bold */
+  color: var(--white);       /* Cor Branca */
+  text-align: center;        /* Texto centralizado */
+  
+  /* Alinhamento perfeito ao centro da barra de 27px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .driver-body-new {
@@ -398,11 +409,11 @@ input  { font-family: inherit; }
 
 /* RETÂNGULO 2: CARD ENDEREÇO */
 .card-address-new {
-  width: 159px;
-  height: 117px; /* Width 159, Height 117 */
+  width: 200px;
+  height: 130px; /* Width 159, Height 117 */
   background: var(--white);
   border-radius: 10px; /* Borda Radius 10 */
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.35);
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -436,11 +447,11 @@ input  { font-family: inherit; }
 
 /* RETÂNGULO 3: BOTÃO EDITAR */
 .card-edit-btn-new {
-  width: 159px;
-  height: 37px; /* Width 159, Height 37 */
+  width: 200px;
+  height: 44px; /* Width 159, Height 37 */
   background: var(--white);
   border-radius: 10px; /* Borda Radius 10 */
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.35);
   border: 1px solid var(--gray);
   color: var(--orange);
   font-size: 10px;
@@ -492,8 +503,14 @@ input  { font-family: inherit; }
 .btn-action-mini.cancel { background: var(--gray); color: var(--gray-dark); }
 .btn-action-mini.save { background: var(--orange); color: white; }
 
-/* ─── CONFIRM BUTTON ─────────────────────────── */
-.confirm-section { padding: 16px 20px; }
+/* ─── CONFIRM BUTTON REFORMULADO ──────────────── */
+.confirm-section-clear {
+  margin: 0 12px;
+  padding: 4px 8px;        /* Espaçamento sutil nas laterais e topo */
+  background: transparent; /* Remove o fundo branco */
+  box-shadow: none;        /* Remove o sombreado do card traseiro */
+}
+
 .btn-confirm {
   width: 100%;
   padding: 16px;
@@ -507,13 +524,11 @@ input  { font-family: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  box-shadow: 0 6px 20px rgba(226,126,12,.35);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
   transition: transform .15s var(--ease-spring), box-shadow .15s;
 }
 .btn-confirm:active { transform: scale(.97); box-shadow: 0 2px 8px rgba(226,126,12,.25); }
 .btn-confirm.confirmed { background: #22c55e; box-shadow: 0 6px 20px rgba(34,197,94,.3); }
-
 /* ─── ORDER SUMMARY ──────────────────────────── */
 .order-items { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
 .order-item  { display: flex; align-items: center; gap: 8px; }
