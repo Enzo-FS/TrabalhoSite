@@ -1,11 +1,289 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dark Kitchen — Pedido #1234</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Hello World</h1>
+
+  <!-- HEADER FIXO -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-order">
+        <span class="order-label">Pedido</span>
+        <span class="order-number">#1234</span>
+      </div>
+      <div class="header-logo">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="36" height="36" rx="10" fill="#E27E0C"/>
+          <path d="M8 24C8 24 10 14 18 14C26 14 28 24 28 24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="18" cy="11" r="3" fill="#fff"/>
+          <path d="M12 24h12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <span class="logo-text">DarkEats</span>
+      </div>
+      <div class="header-eta">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#E27E0C" stroke-width="1.5"/><path d="M8 4.5V8l2.5 2" stroke="#E27E0C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <span class="eta-label">Tempo estimado</span>
+          <span class="eta-value" id="etaDisplay">19:30 min</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STEPPER FIXO -->
+  <div class="stepper-bar" id="stepperBar">
+    <div class="stepper-track">
+      <div class="step active" data-step="0">
+        <div class="step-dot"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7l3.5 3.5L12 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+        <span>Confirmado</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step active" data-step="1">
+        <div class="step-dot"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 3v4l2.5 2" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="7" cy="7" r="5.5" stroke="#fff" stroke-width="1.5" fill="none"/></svg></div>
+        <span>Preparando</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step current" data-step="2">
+        <div class="step-dot pulse"><svg width="14" height="14" viewBox="0 0 14 14"><rect x="2.5" y="6" width="9" height="6" rx="1.5" stroke="#fff" stroke-width="1.5" fill="none"/><path d="M5 6V4.5a2 2 0 014 0V6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></div>
+        <span>Pronto</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step" data-step="3">
+        <div class="step-dot"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="5" cy="10.5" r="1.5" stroke="#fff" stroke-width="1.2" fill="none"/><circle cx="10" cy="10.5" r="1.5" stroke="#fff" stroke-width="1.2" fill="none"/><path d="M2 4h6l2 4H2V4z" stroke="#fff" stroke-width="1.2" fill="none" stroke-linejoin="round"/><path d="M8 4l2.5 2H12" stroke="#fff" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg></div>
+        <span>Motoboy</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step" data-step="4">
+        <div class="step-dot"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 11c0-2.5 2-4 5-4s5 1.5 5 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="7" cy="4.5" r="2.5" stroke="#fff" stroke-width="1.5" fill="none"/></svg></div>
+        <span>Entregue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN SCROLL CONTENT -->
+  <main class="main-content">
+
+    <!-- MAPA -->
+    <section class="section map-section">
+      <div class="section-label">
+        <span class="live-dot"></span>
+        Rastreamento em tempo real
+      </div>
+      <canvas id="mapCanvas" class="map-canvas"></canvas>
+      <div class="map-overlay-info">
+        <div class="map-distance">
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1.5C4.5 1.5 2.5 3.5 2.5 6c0 3.5 4.5 6.5 4.5 6.5S11.5 9.5 11.5 6C11.5 3.5 9.5 1.5 7 1.5z" stroke="#E27E0C" stroke-width="1.5" fill="none"/><circle cx="7" cy="6" r="1.5" fill="#E27E0C"/></svg>
+          <span id="distanceText">1,2 km restantes</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATUS VISUAL -->
+    <section class="section status-visual-section">
+      <h2 class="section-title">Status do Pedido</h2>
+      <div class="visual-timeline">
+
+        <div class="vtl-item done">
+          <div class="vtl-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 11l5 5L18 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+          </div>
+          <div class="vtl-connector done"></div>
+          <div class="vtl-content">
+            <p class="vtl-title">Aguardando confirmação</p>
+            <p class="vtl-time">14:20</p>
+          </div>
+        </div>
+
+        <div class="vtl-item done">
+          <div class="vtl-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 5v6l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </div>
+          <div class="vtl-connector done"></div>
+          <div class="vtl-content">
+            <p class="vtl-title">Preparando</p>
+            <p class="vtl-time">14:25</p>
+          </div>
+        </div>
+
+        <div class="vtl-item active">
+          <div class="vtl-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22"><rect x="5" y="11" width="12" height="7" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 11V8.5a3 3 0 016 0V11" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+          </div>
+          <div class="vtl-connector"></div>
+          <div class="vtl-content">
+            <p class="vtl-title">Pedido pronto</p>
+            <p class="vtl-time">Agora</p>
+          </div>
+        </div>
+
+        <div class="vtl-item">
+          <div class="vtl-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="7" cy="16" r="2" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="15" cy="16" r="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M3 8h9l3 5H3V8z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><path d="M12 8l3.5 3H18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+          </div>
+          <div class="vtl-connector"></div>
+          <div class="vtl-content">
+            <p class="vtl-title">Retirado pelo motoboy</p>
+            <p class="vtl-time">—</p>
+          </div>
+        </div>
+
+        <div class="vtl-item last">
+          <div class="vtl-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22"><path d="M3 18c0-3.5 2.5-5.5 8-5.5s8 2 8 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="11" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </div>
+          <div class="vtl-content">
+            <p class="vtl-title">Pedido entregue</p>
+            <p class="vtl-time">—</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MOTOBOY + ENDEREÇO -->
+    <section class="section driver-address-section">
+
+      <div class="driver-card">
+        <h2 class="section-title">Entregador</h2>
+        <div class="driver-info">
+          <div class="driver-avatar">
+            <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="12" r="7" fill="#E27E0C" opacity=".2"/><path d="M5 28c0-5 4.5-8 11-8s11 3 11 8" stroke="#E27E0C" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="16" cy="12" r="5" stroke="#E27E0C" stroke-width="2" fill="none"/></svg>
+          </div>
+          <div class="driver-details">
+            <p class="driver-name">Thiago S. Bezerra</p>
+            <p class="driver-vehicle">CG Titan 160cc</p>
+          </div>
+          <div class="driver-plate">
+            <span class="plate-label">Placa</span>
+            <span class="plate-value">RJK-A182</span>
+          </div>
+        </div>
+        <div class="delivery-code">
+          <span class="code-label">Código de Entrega</span>
+          <span class="code-value">3577</span>
+        </div>
+      </div>
+
+      <div class="address-card">
+        <h2 class="section-title">Endereço de Entrega</h2>
+        <div class="address-content" id="addressContent">
+          <p class="address-street">Rua Tiradentes, 67</p>
+          <p class="address-details">Bairro 1 · São Paulo · Zona Sul</p>
+          <p class="address-cep">CEP 13065-769</p>
+        </div>
+        <div class="address-edit-form hidden" id="addressForm">
+          <input type="text" id="inputStreet" placeholder="Rua e número" value="Rua Tiradentes, 67" />
+          <input type="text" id="inputNeighborhood" placeholder="Bairro" value="Bairro 1" />
+          <input type="text" id="inputCity" placeholder="Cidade" value="São Paulo" />
+          <input type="text" id="inputCep" placeholder="CEP" value="13065-769" />
+          <div class="form-actions">
+            <button class="btn-ghost" id="cancelEdit">Cancelar</button>
+            <button class="btn-primary small" id="saveAddress">Salvar</button>
+          </div>
+        </div>
+        <button class="btn-edit" id="editAddressBtn">
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
+          Editar endereço
+        </button>
+      </div>
+
+    </section>
+
+    <!-- CONFIRMAR ENTREGA -->
+    <section class="section confirm-section">
+      <button class="btn-confirm" id="confirmBtn">
+        <svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 10l4.5 4.5L16 5.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        Confirmar Entrega
+      </button>
+    </section>
+
+    <!-- RESUMO DO PEDIDO -->
+    <section class="section order-summary-section">
+      <h2 class="section-title">Resumo do Pedido</h2>
+      <ul class="order-items">
+        <li class="order-item">
+          <span class="item-qty">1x</span>
+          <span class="item-name">Frango Tailandês</span>
+          <span class="item-price">R$ 45,00</span>
+        </li>
+        <li class="order-item">
+          <span class="item-qty">2x</span>
+          <span class="item-name">Salada de Lanches</span>
+          <span class="item-price">R$ 90,00</span>
+        </li>
+        <li class="order-item">
+          <span class="item-qty">1x</span>
+          <span class="item-name">Feijão Tropeiro</span>
+          <span class="item-price">R$ 45,00</span>
+        </li>
+      </ul>
+      <div class="order-totals">
+        <div class="total-row">
+          <span>Subtotal</span>
+          <span>R$ 180,00</span>
+        </div>
+        <div class="total-row">
+          <span>Taxa de entrega</span>
+          <span>R$ 7,00</span>
+        </div>
+        <div class="total-row grand">
+          <span>Total</span>
+          <span>R$ 187,00</span>
+        </div>
+        <div class="payment-badge">
+          <svg width="16" height="16" viewBox="0 0 16 16"><rect x="2" y="4" width="12" height="9" rx="2" stroke="#E27E0C" stroke-width="1.5" fill="none"/><path d="M2 7h12" stroke="#E27E0C" stroke-width="1.5"/></svg>
+          <span>Pagamento via PIX</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPORTE -->
+    <section class="section support-section">
+      <h2 class="section-title">Problemas com a entrega?</h2>
+      <div class="support-actions">
+        <button class="btn-support">
+          <svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="16" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M5.5 6.5a3.5 3.5 0 017 0c0 2-2 3-3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+          Falar com o entregador
+        </button>
+        <button class="btn-support">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 4h12a1 1 0 011 1v7a1 1 0 01-1 1H5l-3 2V5a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
+          Falar com a loja
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 22 22"><path d="M3 10.5L11 3l8 7.5V19a1 1 0 01-1 1H4a1 1 0 01-1-1v-8.5z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg>
+      <span>Menu</span>
+    </button>
+    <button class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M8 11h6M11 8v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span>Explorar</span>
+    </button>
+    <button class="nav-item center-nav">
+      <svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="#E27E0C"/><path d="M7 13h12M13 7v12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <button class="nav-item active">
+      <svg width="22" height="22" viewBox="0 0 22 22"><rect x="3" y="3" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="13" y="3" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="3" y="13" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="13" y="13" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+      <span>Pedido</span>
+    </button>
+    <button class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 22 22"><path d="M4 18c0-4 2.5-6 7-6s7 2 7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/><circle cx="11" cy="7" r="4" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+      <span>Perfil</span>
+    </button>
+  </nav>
+
+  <script src="script.js"></script>
 </body>
 </html>
