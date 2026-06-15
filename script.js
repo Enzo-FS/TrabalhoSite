@@ -21,118 +21,7 @@ function initETA() {
   tick();
 }
 
-/* ─── MAP CANVAS ─────────────────────────────── */
-function initMap() {
-  const canvas = document.getElementById('mapCanvas');
-  if (!canvas) return;
-  const dpr = window.devicePixelRatio || 1;
-  const W = canvas.offsetWidth;
-  const H = canvas.offsetHeight;
-  canvas.width  = W * dpr;
-  canvas.height = H * dpr;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
 
-  // pontos
-  const store    = { x: W * .22, y: H * .72 };
-  const client   = { x: W * .76, y: H * .22 };
-  let   progress = 0;      // 0 → 1
-  let   dir      = 1;
-
-  function lerp(a, b, t) { return a + (b - a) * t; }
-
-  function drawMap() {
-    ctx.clearRect(0, 0, W, H);
-
-    // fundo de rua simulado
-    ctx.fillStyle = '#DDE4EC';
-    ctx.fillRect(0, 0, W, H);
-
-    // blocos de "quadra"
-    const blocks = [
-      [8, 8, 100, 60], [120, 8, 90, 60], [226, 8, 100, 60],
-      [8, 82, 80, 70],  [100, 82, 130, 70], [246, 82, 80, 70],
-      [8, 165, 110, 55], [132, 165, 90, 55], [236, 165, 100, 55],
-    ];
-    ctx.fillStyle = '#C8D0DC';
-    blocks.forEach(([x,y,w,h]) => {
-      ctx.beginPath();
-      ctx.roundRect(x, y, w, h, 6);
-      ctx.fill();
-    });
-
-    // rota tracejada
-    ctx.beginPath();
-    ctx.moveTo(store.x, store.y);
-    ctx.lineTo(client.x, client.y);
-    ctx.setLineDash([6, 5]);
-    ctx.strokeStyle = 'rgba(226,126,12,.35)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // rota percorrida
-    const bx = lerp(store.x, client.x, progress);
-    const by = lerp(store.y, client.y, progress);
-    ctx.beginPath();
-    ctx.moveTo(store.x, store.y);
-    ctx.lineTo(bx, by);
-    ctx.strokeStyle = '#E27E0C';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-
-    // ponto loja
-    ctx.beginPath();
-    ctx.arc(store.x, store.y, 8, 0, Math.PI*2);
-    ctx.fillStyle = '#1A1A1A';
-    ctx.fill();
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 9px DM Sans, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('🏪', store.x, store.y);
-
-    // ponto cliente
-    ctx.beginPath();
-    ctx.arc(client.x, client.y, 8, 0, Math.PI*2);
-    ctx.fillStyle = '#E27E0C';
-    ctx.fill();
-    ctx.fillStyle = '#fff';
-    ctx.fillText('📍', client.x, client.y);
-
-    // motoboy
-    ctx.beginPath();
-    ctx.arc(bx, by, 13, 0, Math.PI*2);
-    ctx.fillStyle = '#fff';
-    ctx.shadowBlur = 10;
-    ctx.shadowColor = 'rgba(226,126,12,.5)';
-    ctx.fill();
-    ctx.shadowBlur = 0;
-    ctx.beginPath();
-    ctx.arc(bx, by, 11, 0, Math.PI*2);
-    ctx.fillStyle = '#E27E0C';
-    ctx.fill();
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 12px sans-serif';
-    ctx.fillText('🛵', bx, by + 1);
-  }
-
-  function animate() {
-    progress += 0.001 * dir;
-    if (progress >= 1) { progress = 1; dir = -1; }
-    if (progress <= 0) { progress = 0; dir =  1; }
-
-    // atualiza distância
-    const remaining = (1 - progress);
-    const km = (remaining * 1.8).toFixed(1).replace('.', ',');
-    const distEl = document.getElementById('distanceText');
-    if (distEl) distEl.textContent = `${km} km restantes`;
-
-    drawMap();
-    requestAnimationFrame(animate);
-  }
-  animate();
-}
 
 /* ─── EDITAR ENDEREÇO ────────────────────────── */
 function initAddressEdit() {
@@ -203,7 +92,7 @@ function showToast(msg) {
 /* ─── INIT ───────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   initETA();
-  initMap();
+  //initMap();
   initAddressEdit();
   initConfirmBtn();
 });
